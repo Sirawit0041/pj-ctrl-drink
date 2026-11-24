@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pj-ctrl-drink-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - ADMIN_SECRET_KEY=admin1234
+      - DEFAULT_PROMPTPAY_NUMBER=0945174302
+      - DEFAULT_PROMPTPAY_NAME=PJ Ctrl + Drink
+      # If using Supabase, uncomment and fill in your keys:
+      # - SUPABASE_URL=https://your-project.supabase.co
+      # - SUPABASE_ANON_KEY=your-anon-key
+      # - SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+    volumes:
+      # Persist uploads and local database across container restarts
+      - app_uploads:/app/uploads
+      - app_data:/app/server/data
+
+volumes:
+  app_uploads:
+    driver: local
+  app_data:
+    driver: local

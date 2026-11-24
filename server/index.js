@@ -89,10 +89,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🚀 PJ Ctrl + Drink Web Application Server Started`);
-  console.log(`📍 URL: http://localhost:${PORT}`);
-  console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`=======================================================`);
-});
+if (process.env.VERCEL !== '1' && !process.env.VERCEL_ENV) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🚀 PJ Ctrl + Drink Web Application Server Started`);
+    console.log(`📍 URL: http://localhost:${PORT}`);
+    console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`=======================================================`);
+  });
+}
+
+export default app;
