@@ -1,0 +1,350 @@
+{
+  "shop_settings": [
+    {
+      "id": 1,
+      "shop_name": "PJ Ctrl + Drink",
+      "shop_logo": "/assets/57853.jpg",
+      "is_open": true,
+      "closed_message": "ร้านปิดรับออเดอร์ชั่วคราว",
+      "promptpay_number": "",
+      "promptpay_account_name": "PJ Ctrl + Drink (คุณผู้ดูแลร้าน)",
+      "updated_at": "2026-11-24T10:46:07.443Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "name": "เครื่องดื่ม",
+      "description": "เครื่องดื่มเย็นสดชื่น นมสดแท้ และโซดาซ่าโดนใจ ชงสดใหม่ทุกแก้ว",
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "name": "ของทานเล่น",
+      "description": "ของว่าง ของทานเล่นทอดและปิ้งร้อนๆ สดใหม่ กรอบอร่อยเคี้ยวเพลิน",
+      "created_at": "2026-11-24T10:27:52.473Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-milk-01",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "milk",
+      "name": "นมสด",
+      "description": "นมสดแท้ 100% หอมมัน กลมกล่อม เข้มข้นเลือกระดับความหวานได้ตามใจ",
+      "price": 45,
+      "image_url": "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 46,
+      "created_at": "2026-11-24T10:27:52.473Z",
+      "updated_at": "2026-11-24T10:41:04.973Z"
+    },
+    {
+      "id": "prod-milk-02",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "milk",
+      "name": "นมสดบราวชูก้าร์",
+      "description": "นมสดหอมมันราดซอสบราวชูก้าร์เคี่ยวหอมละมุนเข้มข้น ลายสวย รสชาติหวานมัน",
+      "price": 55,
+      "image_url": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 50,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-milk-03",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "milk",
+      "name": "นมสดน้ำผึ้ง",
+      "description": "นมสดผสมผสานน้ำผึ้งแท้ หอมหวานละมุน ชื่นใจ ดีต่อสุขภาพ",
+      "price": 50,
+      "image_url": "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 40,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-milk-04",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "milk",
+      "name": "นมโกโก้",
+      "description": "ดาร์กโกโก้เข้มข้นพิเศษ ชงกับนมสดสูตรเฉพาะ เข้มถึงใจ หอมกลิ่นโกโก้แท้",
+      "price": 50,
+      "image_url": "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 45,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-milk-05",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "milk",
+      "name": "นมเผือก",
+      "description": "นมสดผสมเผือกหอมเข้มข้น สีม่วงละมุน หวานมันกลมกล่อม มีเอกลักษณ์",
+      "price": 50,
+      "image_url": "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 35,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-soda-01",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "soda",
+      "name": "ลิ้นจี่โซดา",
+      "description": "ไซรัปลิ้นจี่หวานฉ่ำ ผสมโซดาซ่าเย็นชื่นใจ ดับกระหายคลายร้อน",
+      "price": 45,
+      "image_url": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 60,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-soda-02",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "soda",
+      "name": "กีวี่โซดา",
+      "description": "ไซรัปกีวี่เปรี้ยวอมหวานสดชื่น เติมเต็มความกระปรี้กระเปร่าด้วยโซดาซ่า",
+      "price": 45,
+      "image_url": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 50,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-soda-03",
+      "category_id": "11111111-1111-1111-1111-111111111111",
+      "sub_category": "soda",
+      "name": "พีชโซดา",
+      "description": "พีชหอมละมุน เปรี้ยวอมหวาน ผสมโซดาซ่าสะใจ สดชื่นคลายร้อน สดใสทุกจิบ",
+      "price": 45,
+      "image_url": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 50,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-snack-01",
+      "category_id": "22222222-2222-2222-2222-222222222222",
+      "sub_category": "snack",
+      "name": "ไข่นกกระทา",
+      "description": "ขนมไข่นกกระทาทอด กรอบนอกนุ่มใน ไม่อมน้ำมัน หวานมันเคี้ยวเพลิน ทอดใหม่ร้อนๆ",
+      "price": 40,
+      "image_url": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 39,
+      "created_at": "2026-11-24T10:27:52.473Z",
+      "updated_at": "2026-11-24T10:29:31.501Z"
+    },
+    {
+      "id": "prod-snack-02",
+      "category_id": "22222222-2222-2222-2222-222222222222",
+      "sub_category": "snack",
+      "name": "เฟรนฟราย",
+      "description": "มันฝรั่งทอดชิ้นโต คัดสรรอย่างดี กรอบนอกนุ่มใน โรยเกลือเล็กน้อย เสิร์ฟพร้อมซอส",
+      "price": 49,
+      "image_url": "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 45,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-snack-03",
+      "category_id": "22222222-2222-2222-2222-222222222222",
+      "sub_category": "snack",
+      "name": "ขนมปังปิ้งเนย",
+      "description": "ขนมปังแผ่นหนาปิ้งเตาถ่าน หอมเนยสดแท้ กรอบนอกนุ่มใน ชุ่มฉ่ำถึงรสชาติ",
+      "price": 30,
+      "image_url": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 50,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    },
+    {
+      "id": "prod-snack-04",
+      "category_id": "22222222-2222-2222-2222-222222222222",
+      "sub_category": "snack",
+      "name": "ขนมปังปิ้งเนยนม",
+      "description": "ขนมปังปิ้งทาเนยสดแท้ชุ่มฉ่ำ ราดนมข้นหวานเน้นๆ อร่อยเต็มคำฟินสุดๆ",
+      "price": 35,
+      "image_url": "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=600&q=80",
+      "is_available": true,
+      "stock_quantity": 50,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "admin-001",
+      "full_name": "ผู้ดูแลระบบ (Admin)",
+      "phone": "0945174302",
+      "role": "admin",
+      "phone_verified": true,
+      "created_at": "2026-11-24T10:27:52.473Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1795516171501",
+      "order_number": "CD-20261124-9094",
+      "customer_id": null,
+      "customer_name": "สมชาย ใจดี",
+      "customer_phone": "0945174302",
+      "total_amount": 130,
+      "payment_status": "pending",
+      "order_status": "Pending Payment",
+      "note": "ไม่หวานมาก แยกน้ำแข็ง",
+      "created_at": "2026-11-24T10:29:31.501Z",
+      "updated_at": "2026-11-24T10:29:31.501Z"
+    },
+    {
+      "id": "ord-1795516864972",
+      "order_number": "CD-20261124-1548",
+      "customer_id": null,
+      "customer_name": "ข้าวโพด",
+      "customer_phone": "0613294707",
+      "total_amount": 90,
+      "payment_status": "pending",
+      "order_status": "Cancelled",
+      "note": "ใส่น้ำตาลนะครับ",
+      "created_at": "2026-11-24T10:41:04.972Z",
+      "updated_at": "2026-11-24T10:45:45.694Z"
+    }
+  ],
+  "order_items": [
+    {
+      "id": "item-1795516171501-0",
+      "order_id": "ord-1795516171501",
+      "product_id": "prod-milk-01",
+      "product_name": "นมสด",
+      "unit_price": 45,
+      "quantity": 2,
+      "sweetness_level": "หวานปกติ",
+      "subtotal": 90
+    },
+    {
+      "id": "item-1795516171501-1",
+      "order_id": "ord-1795516171501",
+      "product_id": "prod-snack-01",
+      "product_name": "ไข่นกกระทา",
+      "unit_price": 40,
+      "quantity": 1,
+      "sweetness_level": "ไม่ระบุ",
+      "subtotal": 40
+    },
+    {
+      "id": "item-1795516864972-0",
+      "order_id": "ord-1795516864972",
+      "product_id": "prod-milk-01",
+      "product_name": "นมสด",
+      "unit_price": 45,
+      "quantity": 2,
+      "sweetness_level": "หวานปกติ",
+      "subtotal": 90
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay-1795516171501",
+      "order_id": "ord-1795516171501",
+      "payment_method": "PromptPay",
+      "amount": 130,
+      "slip_url": null,
+      "verification_status": "pending",
+      "verified_by": null,
+      "verified_at": null,
+      "rejection_reason": null,
+      "created_at": "2026-11-24T10:29:31.501Z"
+    },
+    {
+      "id": "pay-1795516864972",
+      "order_id": "ord-1795516864972",
+      "payment_method": "PromptPay",
+      "amount": 90,
+      "slip_url": null,
+      "verification_status": "pending",
+      "verified_by": null,
+      "verified_at": null,
+      "rejection_reason": null,
+      "created_at": "2026-11-24T10:41:04.972Z"
+    }
+  ],
+  "admin_logs": [
+    {
+      "id": "log-1795517167444",
+      "admin_id": "admin-001",
+      "action": "SHOP_SETTINGS_UPDATE",
+      "description": "อัปเดตข้อมูลร้านค้า (สถานะร้าน: เปิด)",
+      "created_at": "2026-11-24T10:46:07.444Z"
+    },
+    {
+      "id": "log-1795517145695",
+      "admin_id": "admin-001",
+      "action": "ORDER_STATUS_UPDATE",
+      "description": "อัปเดตสถานะออเดอร์ CD-20261124-1548 เป็น \"Cancelled\"",
+      "created_at": "2026-11-24T10:45:45.695Z"
+    },
+    {
+      "id": "log-1795517129399",
+      "admin_id": "admin-001",
+      "action": "ORDER_STATUS_UPDATE",
+      "description": "อัปเดตสถานะออเดอร์ CD-20261124-1548 เป็น \"Pending Payment\"",
+      "created_at": "2026-11-24T10:45:29.399Z"
+    },
+    {
+      "id": "log-1795517126119",
+      "admin_id": "admin-001",
+      "action": "ORDER_STATUS_UPDATE",
+      "description": "อัปเดตสถานะออเดอร์ CD-20261124-1548 เป็น \"Waiting Verification\"",
+      "created_at": "2026-11-24T10:45:26.119Z"
+    },
+    {
+      "id": "log-1795516785228",
+      "admin_id": "admin-001",
+      "action": "SHOP_SETTINGS_UPDATE",
+      "description": "อัปเดตข้อมูลร้านค้า (สถานะร้าน: เปิด)",
+      "created_at": "2026-11-24T10:39:45.228Z"
+    },
+    {
+      "id": "log-1795516171533",
+      "admin_id": "admin-001",
+      "action": "SHOP_SETTINGS_UPDATE",
+      "description": "อัปเดตข้อมูลร้านค้า (สถานะร้าน: เปิด)",
+      "created_at": "2026-11-24T10:29:31.533Z"
+    },
+    {
+      "id": "log-1795516171527",
+      "admin_id": "admin-001",
+      "action": "SHOP_SETTINGS_UPDATE",
+      "description": "อัปเดตข้อมูลร้านค้า (สถานะร้าน: ปิด)",
+      "created_at": "2026-11-24T10:29:31.527Z"
+    },
+    {
+      "id": "log-001",
+      "admin_id": "admin-001",
+      "action": "SYSTEM_START",
+      "description": "เริ่มต้นระบบ PJ Ctrl + Drink เรียบร้อยแล้ว",
+      "created_at": "2026-11-24T10:27:52.473Z"
+    }
+  ],
+  "otp_verifications": [
+    {
+      "id": "otp-1795516171494",
+      "phone": "0945174302",
+      "otp_code": "676378",
+      "expires_at": "2026-11-24T10:34:31.494Z",
+      "is_verified": true,
+      "attempt_count": 0,
+      "created_at": "2026-11-24T10:29:31.494Z"
+    },
+    {
+      "id": "otp-1795516837548",
+      "phone": "0613294707",
+      "otp_code": "869107",
+      "expires_at": "2026-11-24T10:45:37.548Z",
+      "is_verified": true,
+      "attempt_count": 0,
+      "created_at": "2026-11-24T10:40:37.549Z"
+    }
+  ]
+}

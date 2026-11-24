@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ctrl + Drink | Coffee & Code</title>
+
+  <!-- Google Fonts: Prompt & Kanit for modern Thai typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#FFF9F4',
+              100: '#FFEEDD',
+              200: '#FDD8BA',
+              300: '#FBBE91',
+              400: '#F6AD75',
+              500: '#EE9B55',
+              600: '#D98239',
+              700: '#B46323',
+              800: '#8A4819',
+              900: '#52280C'
+            }
+          },
+          fontFamily: {
+            sans: ['Prompt', 'Kanit', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS matching Figma mockup in assets/57853.jpg -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#FFF9F4] text-[#2D231E] min-h-screen pb-28 antialiased selection:bg-orange-200">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Simulated SMS Notification Floating Alert for OTP testing -->
+  <div id="simulated-sms-banner" class="fixed top-4 left-4 right-4 z-50 max-w-md mx-auto hidden"></div>
+
+  <!-- ==============================================================================
+       TOP HEADER (Curved Organic Header matching assets/57853.jpg)
+       ============================================================================== -->
+  <header class="hero-curved-header pt-6 pb-9 px-5 text-white">
+    <div class="max-w-2xl mx-auto">
+      <!-- Status pill and top bar -->
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-xs font-semibold tracking-wider uppercase opacity-90">ร้านจำหน่ายเครื่องดื่ม & ขนมทานเล่น</span>
+        <div id="header-store-status-pill" class="px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-md border border-white/30 flex items-center gap-1.5 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>เปิดร้าน</span>
+        </div>
+      </div>
+
+      <!-- Center Brand Logo matching Figma mockup in assets/57853.jpg -->
+      <div class="text-center my-3">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl brand-logo-badge mb-2 transform -rotate-3 hover:rotate-0 transition">
+          <i class="fa-solid fa-mug-hot text-2xl text-white drop-shadow"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight drop-shadow-sm font-['Kanit']">
+          Ctrl + Drink
+        </h1>
+        <p class="text-xs font-bold tracking-widest uppercase text-orange-100 opacity-95 mt-0.5">
+          - COFFEE &amp; CODE -
+        </p>
+      </div>
+
+      <!-- Search bar matching mockup -->
+      <div class="mt-4">
+        <div class="search-pill-input bg-white rounded-full flex items-center px-4 py-2.5 shadow-md">
+          <input type="text" id="input-search-hero" placeholder="ค้นหาเครื่องดื่มหรือขนม..." class="w-full text-xs sm:text-sm text-gray-700 placeholder-gray-400 bg-transparent focus:outline-none">
+          <button class="text-orange-500 hover:text-orange-600 pl-2">
+            <i class="fa-solid fa-magnifying-glass text-sm"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Store Closed Global Alert Banner -->
+  <div id="live-shop-closed-alert" class="hidden max-w-2xl mx-auto px-4 mt-4">
+    <div class="bg-rose-500 text-white rounded-2xl p-4 shadow-lg flex items-start gap-3">
+      <i class="fa-solid fa-circle-exclamation text-xl mt-0.5"></i>
+      <div>
+        <h4 class="font-bold text-sm">ขณะนี้ร้านปิดให้บริการ</h4>
+        <p id="shop-closed-message-text" class="text-xs opacity-95 mt-0.5">ขออภัย ขณะนี้ร้านปิดให้บริการแล้ว กรุณาสั่งซื้อใหม่ในเวลาทำการ</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Horizontal Category Navigation Tabs matching mockup in assets/57853.jpg -->
+  <nav class="max-w-2xl mx-auto px-4 mt-5">
+    <div class="flex items-center justify-between gap-2 overflow-x-auto no-scrollbar py-1">
+      <button class="category-tab-btn active px-4 py-2 text-xs sm:text-sm font-semibold flex-shrink-0" data-category="all">
+        ทั้งหมด
+      </button>
+      <button class="category-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold flex-shrink-0" data-category="เครื่องดื่ม">
+        เครื่องดื่ม
+      </button>
+      <button class="category-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold flex-shrink-0" data-category="ของทานเล่น">
+        ของทานเล่น
+      </button>
+      <button class="category-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold flex-shrink-0 nav-tab-item" data-view="order-tracker">
+        เช็คสถานะออเดอร์
+      </button>
+    </div>
+
+    <!-- Subcategory chips (Shown when 'เครื่องดื่ม' is active) -->
+    <div id="drinks-subcategory-chips" class="hidden mt-3 flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+      <button class="subcat-chip px-3 py-1 rounded-full text-xs font-semibold bg-orange-500 text-white border border-transparent shadow-xs transition" data-subcat="all">
+        ทั้งหมดในหมวดเครื่องดื่ม
+      </button>
+      <button class="subcat-chip px-3 py-1 rounded-full text-xs font-semibold bg-white text-gray-700 border border-gray-200 hover:border-orange-300 transition" data-subcat="milk">
+        หมวดนม (Milk Series)
+      </button>
+      <button class="subcat-chip px-3 py-1 rounded-full text-xs font-semibold bg-white text-gray-700 border border-gray-200 hover:border-orange-300 transition" data-subcat="soda">
+        หมวดโซดา (Soda Series)
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==============================================================================
+       VIEW 1: HOME VIEW
+       ============================================================================== -->
+  <main id="view-home" class="main-view-panel max-w-2xl mx-auto px-4 mt-6 space-y-6">
+    <!-- Promotional Banner -->
+    <div class="bg-gradient-to-r from-orange-400 to-amber-500 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden">
+      <div class="relative z-10 max-w-[70%]">
+        <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/25 backdrop-blur mb-2 uppercase">SPECIAL PROMOTION</span>
+        <h3 class="text-xl font-black mb-1 font-['Kanit']">ชงสดใหม่ ทุกแก้ว!</h3>
+        <p class="text-xs text-orange-100 mb-4">นมสดแท้ 100% ชานมเข้มข้น และโซดาซ่าสดชื่น เลือกระดับความหวานได้ดั่งใจ</p>
+        <button id="btn-hero-order-now" class="px-5 py-2.5 bg-white text-orange-600 font-bold rounded-2xl text-xs shadow-md hover:bg-orange-50 transition transform active:scale-95">
+          <i class="fa-solid fa-cart-shopping mr-1.5"></i> สั่งซื้อสินค้าเลย
+        </button>
+      </div>
+      <div class="absolute -right-6 -bottom-6 w-36 h-36 bg-white/15 rounded-full flex items-center justify-center pointer-events-none">
+        <i class="fa-solid fa-mug-saucer text-6xl text-white/30"></i>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-2 gap-3">
+      <button class="nav-tab-item p-4 rounded-2xl bg-white border border-orange-100 shadow-sm hover:shadow-md transition text-left flex items-center gap-3" data-view="menu">
+        <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm text-gray-800">ดูเมนูทั้งหมด</h4>
+          <p class="text-[11px] text-gray-400">เครื่องดื่ม & ขนมทานเล่น</p>
+        </div>
+      </button>
+
+      <button id="btn-quick-track" class="p-4 rounded-2xl bg-white border border-orange-100 shadow-sm hover:shadow-md transition text-left flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-receipt"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm text-gray-800">ประวัติคำสั่งซื้อ</h4>
+          <p class="text-[11px] text-gray-400">ตรวจสอบสถานะ & สลิป</p>
+        </div>
+      </button>
+    </div>
+
+    <!-- Featured Products Section -->
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-base text-gray-800 flex items-center gap-2">
+          <i class="fa-solid fa-fire text-orange-500"></i> เมนูแนะนำ &amp; ขายดี
+        </h3>
+        <button class="nav-tab-item text-xs font-semibold text-orange-600 hover:text-orange-700" data-view="menu">
+          ดูทั้งหมด <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+
+      <div id="home-featured-products" class="grid grid-cols-2 gap-3 sm:gap-4">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ==============================================================================
+       VIEW 2: MENU / PRODUCTS CATALOG
+       ============================================================================== -->
+  <main id="view-menu" class="main-view-panel max-w-2xl mx-auto px-4 mt-6 hidden">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-bold text-lg text-gray-800">รายการเมนูทั้งหมด</h3>
+      <span class="text-xs text-gray-500">เลือกสินค้าลงตะกร้า</span>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="menu-products-grid" class="grid grid-cols-2 gap-3 sm:gap-4">
+      <!-- Rendered via JS -->
+    </div>
+  </main>
+
+  <!-- ==============================================================================
+       VIEW 3: CART & CHECKOUT
+       ============================================================================== -->
+  <main id="view-cart" class="main-view-panel max-w-2xl mx-auto px-4 mt-6 hidden space-y-6">
+    <div class="flex items-center justify-between">
+      <h3 class="font-bold text-lg text-gray-800 flex items-center gap-2">
+        <i class="fa-solid fa-basket-shopping text-orange-500"></i> ตะกร้าสินค้าของคุณ
+      </h3>
+      <button id="btn-clear-cart" class="text-xs text-gray-400 hover:text-rose-500 transition">
+        <i class="fa-solid fa-trash-can mr-1"></i> ล้างตะกร้า
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div id="cart-empty-state" class="hidden py-16 text-center bg-white rounded-3xl border border-orange-100/60 p-6">
+      <div class="w-16 h-16 rounded-full bg-orange-50 text-orange-400 flex items-center justify-center mx-auto mb-3 text-2xl">
+        <i class="fa-solid fa-cart-shopping"></i>
+      </div>
+      <h4 class="font-bold text-gray-700 text-base mb-1">ยังไม่มีสินค้าในตะกร้า</h4>
+      <p class="text-xs text-gray-400 mb-5">เลือกเมนูเครื่องดื่มและของทานเล่นที่คุณชื่นชอบได้เลย</p>
+      <button class="nav-tab-item px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl text-xs shadow-md transition" data-view="menu">
+        ไปที่หน้ารายการสินค้า
+      </button>
+    </div>
+
+    <!-- Cart Items List -->
+    <div id="cart-items-container" class="space-y-3">
+      <!-- Rendered via JS -->
+    </div>
+
+    <!-- Cart Pricing Summary -->
+    <div id="cart-summary-box" class="bg-white rounded-3xl p-5 border border-orange-100 shadow-sm space-y-2.5 text-xs">
+      <div class="flex items-center justify-between text-gray-500">
+        <span>ยอดรวมสินค้า:</span>
+        <span id="cart-subtotal-price" class="font-semibold text-gray-800">฿0.00</span>
+      </div>
+      <div class="flex items-center justify-between text-gray-500">
+        <span>ค่าจัดส่ง / บริการ:</span>
+        <span class="font-semibold text-emerald-600">ฟรี (สั่งซื้อหน้าร้าน)</span>
+      </div>
+      <div class="border-t border-gray-100 pt-2.5 flex items-center justify-between text-sm font-bold">
+        <span class="text-gray-800">ยอดที่ต้องชำระทั้งสิ้น:</span>
+        <span id="cart-total-price" class="text-xl font-black text-orange-600">฿0.00</span>
+      </div>
+    </div>
+
+    <!-- Anti-fake Customer Information & OTP Checkout Form -->
+    <div id="cart-checkout-form" class="bg-white rounded-3xl p-5 border border-orange-100 shadow-sm space-y-4">
+      <div class="border-b border-gray-100 pb-3">
+        <h4 class="font-bold text-sm text-gray-800 flex items-center gap-2">
+          <i class="fa-solid fa-user-check text-orange-500"></i> ข้อมูลผู้สั่งซื้อและการยืนยันตัวตน
+        </h4>
+        <p class="text-[11px] text-gray-400 mt-0.5">ระบบจะตรวจสอบชื่อและยืนยันเบอร์โทรศัพท์ด้วย OTP เพื่อป้องกันข้อมูลปลอม</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">ชื่อ-นามสกุล *</label>
+          <input type="text" id="input-customer-name" placeholder="เช่น สมชาย ใจดี หรือ John Doe" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2.5 focus:ring-2 focus:ring-orange-400 focus:outline-none">
+          <p class="text-[10px] text-gray-400 mt-1">รองรับภาษาไทยและภาษาอังกฤษ (ห้ามใช้ตัวเลขล้วน หรือตัวอักษรซ้ำผิดปกติ)</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">เบอร์โทรศัพท์มือถือ (10 หลัก) *</label>
+          <div class="flex gap-2">
+            <input type="tel" id="input-customer-phone" placeholder="เช่น 0945174302" maxlength="10" class="flex-1 text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2.5 focus:ring-2 focus:ring-orange-400 focus:outline-none">
+            <button type="button" id="btn-request-otp" class="px-3.5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs rounded-xl shadow-xs transition flex-shrink-0 flex items-center gap-1">
+              <i class="fa-solid fa-sms"></i> ขอรหัส OTP
+            </button>
+          </div>
+          <div id="customer-phone-verified-badge" class="hidden mt-1.5 flex items-center gap-1 text-xs text-emerald-600 font-bold">
+            <i class="fa-solid fa-circle-check"></i> เบอร์โทรศัพท์ได้รับการยืนยันด้วย OTP แล้ว
+          </div>
+        </div>
+
+        <!-- OTP 6-Digit Verification Section -->
+        <div id="checkout-otp-section" class="hidden p-4 rounded-2xl bg-orange-50 border border-orange-200 animate-fade-in space-y-2">
+          <label class="block text-xs font-bold text-orange-800">กรอกรหัส OTP (6 หลัก) ที่ได้รับผ่าน SMS:</label>
+          <div class="flex gap-2">
+            <input type="text" id="input-otp-code" maxlength="6" placeholder="123456" class="flex-1 text-center font-mono text-base font-bold tracking-widest rounded-xl border border-orange-300 px-3 py-2 bg-white focus:ring-2 focus:ring-orange-500 focus:outline-none">
+            <button type="button" id="btn-verify-otp" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition">
+              ยืนยันรหัส
+            </button>
+          </div>
+          <p class="text-[11px] text-gray-500">รหัสมีอายุ 5 นาที หากไม่ได้รับรหัสสามารถกดขอใหม่ได้</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">รายละเอียดเพิ่มเติม / หมายเหตุถึงร้าน (ถ้ามี)</label>
+          <textarea id="input-customer-note" rows="2" placeholder="เช่น ไม่ใส่น้ำตาล, แยกน้ำแข็ง ฯลฯ" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"></textarea>
+        </div>
+      </div>
+
+      <div class="pt-3">
+        <button id="btn-checkout-submit" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2" disabled>
+          <i class="fa-solid fa-lock"></i> ยืนยันคำสั่งซื้อและชำระเงิน
+        </button>
+        <p class="text-[10px] text-gray-400 text-center mt-2">
+          * ปุ่มจะเปิดให้กดเมื่อร้านเปิดทำการ และยืนยันเบอร์โทรศัพท์ด้วย OTP เรียบร้อยแล้ว
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==============================================================================
+       VIEW 4: ORDER TRACKER VIEW
+       ============================================================================== -->
+  <main id="view-order-tracker" class="main-view-panel max-w-2xl mx-auto px-4 mt-6 hidden space-y-5">
+    <div class="text-center mb-4">
+      <h3 class="font-bold text-xl text-gray-800">ติดตามสถานะคำสั่งซื้อ</h3>
+      <p class="text-xs text-gray-500">กรอกหมายเลขออเดอร์ของคุณเพื่อตรวจสอบสถานะแบบเรียลไทม์</p>
+    </div>
+
+    <!-- Search Order Input -->
+    <div class="bg-white rounded-2xl p-3 border border-orange-100 shadow-sm flex gap-2">
+      <input type="text" id="input-search-order-id" placeholder="กรอกหมายเลขออเดอร์ (เช่น CD-20261124-xxxx)" class="flex-1 text-xs sm:text-sm px-3 py-2 border rounded-xl focus:ring-2 focus:ring-orange-400 focus:outline-none">
+      <button id="btn-lookup-order" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition">
+        ค้นหา
+      </button>
+    </div>
+
+    <!-- Order Details & Progression Container -->
+    <div id="order-tracker-content">
+      <div class="py-12 text-center text-gray-400 bg-white rounded-3xl border p-6">
+        <i class="fa-solid fa-receipt text-3xl mb-2 text-gray-300"></i>
+        <p class="text-xs">กรุณากรอกหมายเลขออเดอร์ หรือเลือกจากประวัติคำสั่งซื้อ</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==============================================================================
+       VIEW 5: SETTINGS & USER PROFILE VIEW
+       ============================================================================== -->
+  <main id="view-settings" class="main-view-panel max-w-2xl mx-auto px-4 mt-6 hidden space-y-6">
+    <div class="bg-white rounded-3xl p-5 border border-orange-100 shadow-sm">
+      <div class="flex items-center gap-3.5 mb-4">
+        <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-bold">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-base text-gray-800">ข้อมูลผู้ใช้งาน</h4>
+          <p class="text-xs text-gray-400">จัดการข้อมูลและประวัติการสั่งซื้อของคุณ</p>
+        </div>
+      </div>
+
+      <!-- Quick lookup order history by phone -->
+      <div class="border-t border-gray-100 pt-4">
+        <label class="block text-xs font-semibold text-gray-600 mb-1">ค้นหาประวัติออเดอร์ด้วยเบอร์โทรศัพท์</label>
+        <div class="flex gap-2">
+          <input type="tel" id="input-history-phone" placeholder="เช่น 0945174302" class="flex-1 text-xs rounded-xl border border-gray-300 px-3 py-2">
+          <button id="btn-search-user-history" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition">
+            ค้นหา
+          </button>
+        </div>
+
+        <div id="user-history-results" class="mt-4 space-y-2">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Portal Entry -->
+    <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-5 text-white shadow-lg flex items-center justify-between">
+      <div>
+        <span class="text-[10px] uppercase font-bold text-orange-400 tracking-wider">STORE MANAGEMENT</span>
+        <h4 class="font-bold text-base">ระบบจัดการร้านค้า (Admin Portal)</h4>
+        <p class="text-xs text-gray-400 mt-0.5">เข้าสู่ระบบเพื่อจัดการสินค้า ออเดอร์ และตรวจสอบสลิป</p>
+      </div>
+      <button class="nav-tab-item px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-xs transition flex-shrink-0" data-view="admin">
+        เข้าสู่ระบบ Admin <i class="fa-solid fa-arrow-right ml-1"></i>
+      </button>
+    </div>
+  </main>
+
+  <!-- ==============================================================================
+       VIEW 6: ADMIN DASHBOARD & MANAGEMENT PORTAL
+       ============================================================================== -->
+  <main id="view-admin" class="main-view-panel max-w-4xl mx-auto px-4 mt-6 hidden space-y-6">
+    <!-- Admin Header -->
+    <div class="bg-white rounded-3xl p-5 border border-orange-100 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-orange-500"></span>
+          <h3 class="font-bold text-xl text-gray-800 font-['Kanit']">Admin Dashboard</h3>
+        </div>
+        <p class="text-xs text-gray-500 mt-0.5">ระบบควบคุมร้านค้า PJ Ctrl + Drink แบบครบวงจร</p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btn-admin-refresh" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate"></i> รีเฟรชข้อมูล
+        </button>
+        <button onclick="localStorage.removeItem('ctrl_drink_admin_token'); location.reload();" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-semibold transition">
+          <i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin Navigation Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+      <button class="admin-tab-btn px-4 py-2 text-xs font-bold rounded-xl bg-orange-500 text-white shadow-md flex-shrink-0" data-tab="dashboard">
+        <i class="fa-solid fa-chart-line mr-1"></i> แดชบอร์ดภาพรวม
+      </button>
+      <button class="admin-tab-btn px-4 py-2 text-xs font-bold rounded-xl text-gray-600 hover:bg-gray-100 flex-shrink-0" data-tab="orders">
+        <i class="fa-solid fa-list-check mr-1"></i> จัดการคำสั่งซื้อ
+      </button>
+      <button class="admin-tab-btn px-4 py-2 text-xs font-bold rounded-xl text-gray-600 hover:bg-gray-100 flex-shrink-0" data-tab="slips">
+        <i class="fa-solid fa-receipt mr-1"></i> ตรวจสอบสลิปโอน
+      </button>
+      <button class="admin-tab-btn px-4 py-2 text-xs font-bold rounded-xl text-gray-600 hover:bg-gray-100 flex-shrink-0" data-tab="products">
+        <i class="fa-solid fa-cubes mr-1"></i> จัดการสินค้า
+      </button>
+      <button class="admin-tab-btn px-4 py-2 text-xs font-bold rounded-xl text-gray-600 hover:bg-gray-100 flex-shrink-0" data-tab="settings">
+        <i class="fa-solid fa-store mr-1"></i> เปิด-ปิดร้าน &amp; ตั้งค่า
+      </button>
+      <button class="admin-tab-btn px-4 py-2 text-xs font-bold rounded-xl text-gray-600 hover:bg-gray-100 flex-shrink-0" data-tab="logs">
+        <i class="fa-solid fa-clock-rotate-left mr-1"></i> ประวัติระบบ
+      </button>
+    </div>
+
+    <!-- Admin Tab 1: Dashboard -->
+    <div id="admin-tab-dashboard" class="admin-tab-content space-y-5">
+      <!-- 5 Stat Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="bg-white rounded-2xl p-4 border border-orange-100 shadow-sm">
+          <span class="text-[11px] text-gray-400 block font-medium">ยอดขายวันนี้</span>
+          <span id="stat-today-sales" class="text-lg font-black text-orange-600 mt-1 block">฿0.00</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-orange-100 shadow-sm">
+          <span class="text-[11px] text-gray-400 block font-medium">ยอดขายทั้งหมด</span>
+          <span id="stat-total-sales" class="text-lg font-black text-emerald-600 mt-1 block">฿0.00</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-orange-100 shadow-sm">
+          <span class="text-[11px] text-gray-400 block font-medium">ออเดอร์วันนี้</span>
+          <span id="stat-today-orders" class="text-lg font-black text-gray-800 mt-1 block">0</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-orange-100 shadow-sm">
+          <span class="text-[11px] text-gray-400 block font-medium">สลิปรอตรวจ</span>
+          <span id="stat-pending-slips" class="text-lg font-black text-amber-500 mt-1 block">0</span>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-orange-100 shadow-sm col-span-2 sm:col-span-1">
+          <span class="text-[11px] text-gray-400 block font-medium">ออเดอร์กำลังทำ</span>
+          <span id="stat-active-orders" class="text-lg font-black text-purple-600 mt-1 block">0</span>
+        </div>
+      </div>
+
+      <!-- Bestsellers Section -->
+      <div class="bg-white rounded-3xl p-5 border border-orange-100 shadow-sm">
+        <h4 class="font-bold text-sm text-gray-800 mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-trophy text-amber-500"></i> อันดับสินค้าขายดีที่สุด (Best Sellers)
+        </h4>
+        <div id="stat-bestsellers-list" class="space-y-2">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tab 2: Orders Management -->
+    <div id="admin-tab-orders" class="admin-tab-content hidden space-y-4">
+      <div class="flex items-center justify-between">
+        <h4 class="font-bold text-base text-gray-800">รายการคำสั่งซื้อ</h4>
+        <select id="select-order-filter" class="text-xs font-semibold rounded-xl border-gray-300 py-1.5 px-3 bg-white">
+          <option value="all">สถานะทั้งหมด</option>
+          <option value="Pending Payment">Pending Payment (รอชำระเงิน)</option>
+          <option value="Waiting Verification">Waiting Verification (รอตรวจสอบสลิป)</option>
+          <option value="Payment Approved">Payment Approved (ชำระเงินแล้ว)</option>
+          <option value="Preparing">Preparing (กำลังจัดเตรียม)</option>
+          <option value="Ready">Ready (พร้อมรับสินค้า)</option>
+          <option value="Completed">Completed (สำเร็จ)</option>
+          <option value="Rejected">Rejected (ปฏิเสธสลิป)</option>
+        </select>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-200 text-xs text-gray-500 font-semibold uppercase">
+                <th class="py-3 px-3">เลขออเดอร์</th>
+                <th class="py-3 px-3">เวลา</th>
+                <th class="py-3 px-3">ลูกค้า</th>
+                <th class="py-3 px-3">รายการ</th>
+                <th class="py-3 px-3">ยอดเงิน</th>
+                <th class="py-3 px-3">สถานะคำสั่งซื้อ</th>
+                <th class="py-3 px-3 text-right">สลิป</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tab 3: Slips Verification Center -->
+    <div id="admin-tab-slips" class="admin-tab-content hidden space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h4 class="font-bold text-base text-gray-800">ศูนย์ตรวจสอบสลิปโอนเงิน (Manual Verification)</h4>
+          <p class="text-xs text-gray-500">ตรวจสอบยอดเงินเข้าบัญชีจริงก่อนกดยืนยัน</p>
+        </div>
+      </div>
+
+      <div id="admin-slips-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Admin Tab 4: Products Management -->
+    <div id="admin-tab-products" class="admin-tab-content hidden space-y-4">
+      <div class="flex items-center justify-between">
+        <h4 class="font-bold text-base text-gray-800">จัดการรายการสินค้าในร้าน</h4>
+        <button id="btn-add-product-modal" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-xs shadow-md transition flex items-center gap-1.5">
+          <i class="fa-solid fa-plus"></i> เพิ่มสินค้าใหม่
+        </button>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-200 text-xs text-gray-500 font-semibold uppercase">
+                <th class="py-3 px-3">รูปภาพ</th>
+                <th class="py-3 px-3">ชื่อสินค้า</th>
+                <th class="py-3 px-3">ราคา</th>
+                <th class="py-3 px-3">สต็อก</th>
+                <th class="py-3 px-3">สถานะการขาย</th>
+                <th class="py-3 px-3 text-right">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-table-body">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tab 5: Store Open/Close & Settings -->
+    <div id="admin-tab-settings" class="admin-tab-content hidden space-y-5">
+      <!-- Store Open/Close Control Card -->
+      <div class="bg-white rounded-3xl p-6 border border-orange-100 shadow-sm">
+        <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+          <div>
+            <h4 class="font-bold text-base text-gray-800 flex items-center gap-2">
+              <i class="fa-solid fa-door-open text-orange-500"></i> สวิตช์ เปิด-ปิด ร้านค้า
+            </h4>
+            <p class="text-xs text-gray-400 mt-0.5">เมื่อปิดร้าน ระบบจะบล็อกการสร้างออเดอร์ใหม่ทั้งจาก Frontend และ Backend ทันที</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="store-status-toggle" class="sr-only peer" checked>
+            <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+          </label>
+        </div>
+
+        <form id="form-shop-settings" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">ชื่อร้านค้า *</label>
+              <input type="text" id="input-shop-name" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2.5">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">หมายเลข PromptPay (10 หลัก) *</label>
+              <input type="text" id="input-promptpay-number" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2.5">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">ชื่อบัญชีผู้รับเงิน PromptPay *</label>
+            <input type="text" id="input-promptpay-account-name" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2.5">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">ข้อความแจ้งเตือนเมื่อร้านปิด</label>
+            <textarea id="input-closed-message" rows="2" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2"></textarea>
+          </div>
+
+          <!-- PromptPay QR Code Image Upload -->
+          <div class="border-t border-gray-100 pt-4">
+            <label class="block text-xs font-bold text-gray-700 mb-1">
+              <i class="fa-solid fa-qrcode text-orange-500 mr-1"></i> รูปภาพ PromptPay QR Code ของร้านค้า
+            </label>
+            <p class="text-[11px] text-gray-400 mb-3">
+              คุณสามารถวางไฟล์ไว้ที่ <code class="bg-gray-100 px-1 py-0.5 rounded text-orange-600 font-mono">public/assets/qr.png</code> หรือเลือกอัปโหลดรูปภาพผ่านปุ่มด้านล่างนี้ได้เลย
+            </p>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 bg-orange-50/40 p-3.5 rounded-2xl border border-orange-100">
+              <div id="current-qr-preview-container" class="w-24 h-24 rounded-2xl border-2 border-dashed border-orange-200 bg-white flex items-center justify-center overflow-hidden p-1 flex-shrink-0 mx-auto sm:mx-0">
+                <img id="admin-current-qr-img" src="/assets/qr.png" onerror="this.src='/assets/57853.jpg'; this.classList.add('opacity-40');" alt="Current QR" class="w-full h-full object-contain rounded-xl">
+              </div>
+              <div class="space-y-2 flex-1">
+                <input type="file" id="input-admin-qr-file" accept="image/png,image/jpeg,image/webp" class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200 cursor-pointer">
+                <button type="button" id="btn-upload-admin-qr" class="px-4 py-2 bg-gray-800 hover:bg-black text-white text-xs font-bold rounded-xl transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> บันทึกรูปภาพ QR Code ใหม่
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs rounded-xl shadow-md transition">
+              <i class="fa-solid fa-floppy-disk mr-1"></i> บันทึกการตั้งค่าร้านค้า
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Admin Tab 6: Logs -->
+    <div id="admin-tab-logs" class="admin-tab-content hidden space-y-4">
+      <h4 class="font-bold text-base text-gray-800">บันทึกประวัติการทำงานของผู้ดูแล (Audit Logs)</h4>
+      <div id="admin-logs-list" class="space-y-2">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ==============================================================================
+       MODALS
+       ============================================================================== -->
+
+  <!-- Sweetness Selector Modal (For Beverages) -->
+  <div id="sweetness-modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="glass-modal-overlay absolute inset-0"></div>
+    <div class="bg-white rounded-t-3xl sm:rounded-3xl max-w-md w-full p-6 shadow-2xl relative z-10 animate-fade-in space-y-4">
+      <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+        <div class="flex items-center gap-3">
+          <img id="modal-drink-img" src="/assets/57853.jpg" alt="Drink" class="w-12 h-12 rounded-xl object-cover border">
+          <div>
+            <h4 id="modal-drink-title" class="font-bold text-base text-gray-800">นมสด</h4>
+            <p id="modal-drink-desc" class="text-xs text-gray-400 line-clamp-1">เลือกระดับความหวาน</p>
+          </div>
+        </div>
+        <button id="btn-close-sweetness-modal" class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Sweetness Level Options -->
+      <div>
+        <label class="block text-xs font-bold text-gray-700 mb-2">เลือกระดับความหวาน (Sweetness):</label>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="sweetness-option p-3 text-center" data-sweetness="หวานน้อย">
+            <span class="block text-xs font-bold">หวานน้อย</span>
+            <span class="text-[10px] text-gray-400">25%</span>
+          </div>
+          <div class="sweetness-option selected p-3 text-center" data-sweetness="หวานปกติ">
+            <span class="block text-xs font-bold">หวานปกติ</span>
+            <span class="text-[10px] text-gray-400">50%</span>
+          </div>
+          <div class="sweetness-option p-3 text-center" data-sweetness="หวานมาก">
+            <span class="block text-xs font-bold">หวานมาก</span>
+            <span class="text-[10px] text-gray-400">100%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quantity Stepper -->
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-xs font-bold text-gray-700">จำนวนแก้ว:</span>
+        <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-1.5 border">
+          <button id="modal-qty-minus" class="w-8 h-8 rounded-lg bg-white shadow-xs flex items-center justify-center text-gray-700 font-bold hover:text-orange-600 transition">
+            <i class="fa-solid fa-minus text-xs"></i>
+          </button>
+          <span id="modal-qty-display" class="font-bold text-sm w-6 text-center">1</span>
+          <button id="modal-qty-plus" class="w-8 h-8 rounded-lg bg-white shadow-xs flex items-center justify-center text-gray-700 font-bold hover:text-orange-600 transition">
+            <i class="fa-solid fa-plus text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Add to Cart Submit Button -->
+      <button id="btn-confirm-add-drink" class="w-full py-3.5 bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/25 transition flex items-center justify-between px-5">
+        <span>เพิ่มลงในตะกร้า</span>
+        <span id="modal-drink-total-price" class="text-base font-black">฿45.00</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Payment Modal Container -->
+  <div id="payment-modal" class="hidden"></div>
+
+  <!-- Admin Login Modal -->
+  <div id="admin-login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="glass-modal-overlay absolute inset-0"></div>
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl relative z-10 animate-fade-in text-center space-y-4">
+      <button id="btn-close-admin-login" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto text-2xl">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <div>
+        <h4 class="font-bold text-lg text-gray-800">เข้าสู่ระบบผู้ดูแลร้าน</h4>
+        <p class="text-xs text-gray-400 mt-0.5">กรอกรหัสผ่านเพื่อเข้าถึงระบบจัดการร้านค้า</p>
+      </div>
+
+      <form id="form-admin-login" class="space-y-3">
+        <input type="password" id="input-admin-password" placeholder="รหัสผ่าน Admin (ค่าเริ่มต้น: admin1234)" class="w-full text-xs sm:text-sm rounded-xl border border-gray-300 px-3.5 py-2.5 text-center focus:ring-2 focus:ring-orange-400 focus:outline-none">
+        <button type="submit" class="w-full py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-xs shadow-md transition">
+          เข้าสู่ระบบ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Slip Inspect Modal Container -->
+  <div id="admin-slip-inspect-modal" class="hidden"></div>
+
+  <!-- Admin Product Create/Edit Modal Container -->
+  <div id="admin-product-edit-modal" class="hidden"></div>
+
+  <!-- ==============================================================================
+       FLOATING BOTTOM NAVIGATION BAR (Matching Figma mockup in assets/57853.jpg)
+       ============================================================================== -->
+  <div class="fixed bottom-4 left-0 right-0 z-40 px-6 max-w-md mx-auto pointer-events-none">
+    <nav class="bottom-nav-bar py-3 px-6 flex items-center justify-around pointer-events-auto">
+      <!-- 1. Home -->
+      <button class="nav-tab-item active flex flex-col items-center gap-0.5" data-view="home">
+        <i class="fa-solid fa-house text-lg"></i>
+      </button>
+
+      <!-- 2. Menu Catalog -->
+      <button class="nav-tab-item flex flex-col items-center gap-0.5" data-view="menu">
+        <i class="fa-solid fa-mug-hot text-lg"></i>
+      </button>
+
+      <!-- 3. Orders / Cart -->
+      <button class="nav-tab-item flex flex-col items-center gap-0.5 relative" data-view="cart">
+        <i class="fa-solid fa-receipt text-lg"></i>
+        <span class="cart-badge-count hidden absolute -top-1.5 -right-2 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center ring-2 ring-orange-500">
+          0
+        </span>
+      </button>
+
+      <!-- 4. Settings -->
+      <button class="nav-tab-item flex flex-col items-center gap-0.5" data-view="settings">
+        <i class="fa-solid fa-gear text-lg"></i>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

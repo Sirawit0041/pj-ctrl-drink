@@ -1,0 +1,206 @@
+/* ==============================================================================
+   PJ Ctrl + Drink - Styling matching assets/57853.jpg
+   Theme: Warm Caramel / Peach / Coffee & Code
+   ============================================================================== */
+
+:root {
+  --primary: #EE9B55;
+  --primary-light: #F5A86C;
+  --primary-dark: #D98239;
+  --primary-gradient: linear-gradient(135deg, #F6AD75 0%, #EE9B55 100%);
+  --bg-warm: #FFF9F4;
+  --card-bg: #FFFFFF;
+  --text-primary: #2D231E;
+  --text-muted: #7D6E66;
+  --border-light: #F3E7DD;
+}
+
+body {
+  font-family: 'Prompt', 'Kanit', sans-serif;
+  background-color: var(--bg-warm);
+  color: var(--text-primary);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Curved Header matching Figma mockup in assets/57853.jpg */
+.hero-curved-header {
+  background: var(--primary-gradient);
+  border-bottom-left-radius: 2.5rem;
+  border-bottom-right-radius: 2.5rem;
+  box-shadow: 0 10px 25px -5px rgba(238, 155, 85, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-curved-header::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-curved-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -15%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Brand badge in mockup */
+.brand-logo-badge {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* Search bar matching mockup */
+.search-pill-input {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.search-pill-input:focus-within {
+  box-shadow: 0 6px 20px rgba(238, 155, 85, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Category Tab Pills */
+.category-tab-btn {
+  transition: all 0.2s ease-in-out;
+  color: var(--text-muted);
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.category-tab-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(238, 155, 85, 0.35);
+  font-weight: 600;
+}
+
+/* Product Card */
+.product-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 15px rgba(238, 155, 85, 0.06);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(238, 155, 85, 0.15);
+  border-color: rgba(238, 155, 85, 0.4);
+}
+
+/* Floating Bottom Navigation Bar matching mockup */
+.bottom-nav-bar {
+  background: var(--primary-gradient);
+  border-radius: 2rem;
+  box-shadow: 0 8px 30px rgba(238, 155, 85, 0.4);
+}
+
+.nav-tab-item {
+  color: rgba(255, 255, 255, 0.75);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-tab-item.active {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.nav-tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  width: 6px;
+  height: 6px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+/* Custom Scrollbar for horizontal tabs */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glassmorphism & Modals */
+.glass-modal-overlay {
+  background: rgba(45, 35, 30, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+/* Sweetness Pill Option */
+.sweetness-option {
+  border: 2px solid #E5E7EB;
+  border-radius: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.sweetness-option.selected {
+  border-color: var(--primary);
+  background-color: #FFF6EE;
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Toast Notification */
+#toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  border-radius: 1rem;
+  padding: 0.85rem 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: slideInRight 0.3s ease;
+  max-width: 90vw;
+  font-size: 0.95rem;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

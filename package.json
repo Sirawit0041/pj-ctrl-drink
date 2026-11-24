@@ -1,0 +1,23 @@
+{
+  "name": "pj-ctrl-drink",
+  "version": "1.0.0",
+  "description": "Beverage & Snack Ordering Web Application with Supabase & Node.js",
+  "main": "server/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node test/test-runner.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "multer": "^1.4.5-lts.1",
+    "qrcode": "^1.5.4",
+    "promptpay-qr": "^0.5.0"
+  }
+}
