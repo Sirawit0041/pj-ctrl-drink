@@ -8,10 +8,14 @@ import { requireAdmin } from '../middleware/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const assetsDir = path.join(__dirname, '../../public/assets');
+const assetsDir = process.env.VERCEL ? path.join('/tmp', 'assets') : path.join(__dirname, '../../public/assets');
 
-if (!fs.existsSync(assetsDir)) {
-  fs.mkdirSync(assetsDir, { recursive: true });
+try {
+  if (!fs.existsSync(assetsDir)) {
+    fs.mkdirSync(assetsDir, { recursive: true });
+  }
+} catch (e) {
+  // Suppress read-only filesystem errors in serverless environments
 }
 
 const qrStorage = multer.diskStorage({
