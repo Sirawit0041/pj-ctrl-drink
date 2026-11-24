@@ -19,7 +19,7 @@ COPY public ./public
 COPY server ./server
 COPY database ./database
 COPY assets ./assets
-COPY uploads ./uploads
+RUN mkdir -p uploads
 
 # Expose server port
 EXPOSE 3000
